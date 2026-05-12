@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Portfolio | Digital Marketing & Design</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+GO:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #fffafb;
+            --accent-dark: #1a1a1a;
+            --accent-gold: #c5a059;
+            --block-color: #d1e9ff; 
+            --card-bg: #ffffff;
+            --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        body { 
+            margin: 0; 
+            font-family: 'Fira GO', sans-serif; 
+            color: #2d2d2d; 
+            line-height: 1.7; 
+            overflow-x: hidden;
+            background: linear-gradient(-45deg, #fce4ec, #e8f5e9, #e3f2fd, #fff9f0);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        nav { 
+            position: fixed; top: 0; width: 100%; 
+            background: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 0; z-index: 1000; 
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container { 
+            max-width: 1200px; margin: 0 auto; display: flex; 
+            justify-content: space-between; padding: 0 30px; align-items: center; 
+        }
+
+        .logo { font-weight: 700; letter-spacing: 3px; font-size: 1.3rem; color: var(--accent-dark); text-transform: uppercase; }
+
+        .nav-links a { 
+            text-decoration: none; color: var(--accent-dark); margin-left: 30px; 
+            font-weight: 700; font-size: 0.85rem; position: relative; transition: var(--transition);
+        }
+
+        .nav-links a:hover { color: var(--accent-gold); }
+
+        header { 
+            height: 70vh; display: flex; flex-direction: column; 
+            justify-content: center; align-items: center; text-align: center; 
+            padding: 0 20px;
+        }
+
+        header h1 { font-size: 4rem; margin-bottom: 15px; font-weight: 700; color: var(--accent-dark); }
+
+        .hero-line { width: 60px; height: 4px; background: var(--accent-gold); margin-bottom: 25px; border-radius: 2px; }
+
+        section { padding: 100px 30px; max-width: 1200px; margin: 0 auto; }
+        
+        h2 { font-size: 2.2rem; text-align: center; margin-bottom: 60px; font-weight: 700; }
+
+        .skills-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 40px; }
+
+        .skill-category {
+            padding: 40px; 
+            border-radius: 24px; 
+            transition: var(--transition);
+            background: var(--block-color);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+
+        .skill-category:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+            background: #ffffff; 
+        }
+
+        .skill-list li { 
+            list-style: none; padding: 12px 0; border-bottom: 1px solid rgba(0,0,0,0.05); 
+            font-size: 0.95rem; display: flex; align-items: center;
+        }
+
+        .skill-list li::before { content: '✦'; margin-right: 10px; color: var(--accent-gold); }
+
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+
+        .project-card { 
+            background: white; border-radius: 20px; overflow: hidden; 
+            cursor: pointer; transition: var(--transition); border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .project-card:hover { transform: translateY(-10px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-color: var(--accent-gold); }
+
+        .project-info { padding: 35px; }
+
+        .modal { 
+            display: none; position: fixed; z-index: 2000; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.85); opacity: 0; transition: opacity 0.4s ease;
+        }
+
+        .modal.active { display: block; opacity: 1; }
+
+        .modal-content { 
+            background: white; max-width: 850px; margin: 40px auto; 
+            padding: 50px; border-radius: 25px; transform: translateY(50px);
+            transition: var(--transition); border-top: 5px solid var(--accent-gold);
+            max-height: 85vh; overflow-y: auto;
+            position: relative;
+        }
+
+        .modal.active .modal-content { transform: translateY(0); }
+
+        .close { position: absolute; right: 30px; top: 20px; font-size: 2.5rem; cursor: pointer; color: #999; z-index: 100; }
+        
+        .modal-body h3 { font-size: 1.8rem; margin-bottom: 15px; color: var(--accent-dark); }
+        .modal-body h4 { color: var(--accent-gold); margin-top: 30px; margin-bottom: 12px; text-transform: uppercase; font-size: 1rem; border-bottom: 1px solid #eee; display: inline-block; }
+        .modal-body p { margin-bottom: 15px; white-space: pre-line; }
+        .modal-body ul { padding-left: 20px; margin-bottom: 20px; }
+        .modal-body li { margin-bottom: 10px; }
+        .modal-body b { color: #1a1a1a; }
+
+        .modal-img { 
+            width: 100%; 
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 15px; 
+            margin-bottom: 25px; 
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05); 
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* --- MOBILE OPTIMIZATION --- */
+        @media (max-width: 768px) {
+            header h1 { font-size: 2.5rem; }
+            .nav-container { padding: 0 15px; }
+            .logo { font-size: 1.1rem; }
+            .nav-links a { margin-left: 15px; font-size: 0.75rem; }
+            section { padding: 60px 20px; }
+            h2 { font-size: 1.8rem; margin-bottom: 40px; }
+            .modal-content { margin: 20px; padding: 30px 20px; width: auto; }
+            .modal-body h3 { font-size: 1.5rem; }
+            .projects-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-container">
+        <div class="logo">PORTFOLIO</div>
+        <div class="nav-links">
+            <a href="#about">უნარები</a>
+            <a href="#projects">ნამუშევრები</a>
+        </div>
+    </div>
+</nav>
+
+<header>
+    <div class="hero-line" data-aos="fade-up"></div>
+    <h1 data-aos="fade-up" data-aos-delay="100">ანაჰიტ ამბარცუმოვი</h1>
+    <p data-aos="fade-up" data-aos-delay="200" style="text-transform: uppercase; letter-spacing: 5px; color: #546e7a;">ციფრული მარკეტინგი & ბრენდ დიზაინი</p>
+</header>
+
+<section id="about">
+    <h2 data-aos="fade-up">პროფესიული უნარები</h2>
+    <div class="skills-container">
+        <div class="skill-category" data-aos="fade-up" data-aos-delay="100">
+            <h4 style="color: #1565c0; letter-spacing: 1px;">დიზაინი & ვიზუალი</h4>
+            <ul class="skill-list" style="padding: 0;">
+                <li>UI/UX დიზაინი (Figma)</li>
+                <li>გრაფიკული დიზაინი (Photoshop, Illustrator)</li>
+                <li>ბრენდბუქის შექმნა & იდენტობა</li>
+                <li>პროდუქტის ვიზუალიზაცია & მაკაპები</li>
+            </ul>
+        </div>
+        <div class="skill-category" data-aos="fade-up" data-aos-delay="200">
+            <h4 style="color: #1565c0; letter-spacing: 1px;">მარკეტინგი & სტრატეგია</h4>
+            <ul class="skill-list" style="padding: 0;">
+                <li>ციფრული მარკეტინგის სტრატეგია</li>
+                <li>Marketplace ოპტიმიზაცია (ინფოგრაფიკა)</li>
+                <li>SMM კამპანიების დაგეგმვა</li>
+                <li>მომხმარებლის ფსიქოლოგია & კონვერსია</li>
+            </ul>
+        </div>
+        <div class="skill-category" data-aos="fade-up" data-aos-delay="300">
+            <h4 style="color: #1565c0; letter-spacing: 1px;">კომუნიკაცია & მენეჯმენტი</h4>
+            <ul class="skill-list" style="padding: 0;">
+                <li>ბრენდის კომუნიკაციის ენა (Tone of Voice)</li>
+                <li>კონტენტ-გეგმის შემუშავება</li>
+                <li>პრეზენტაციის დიზაინი</li>
+                <li>E-commerce მართვის საფუძვლები</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<section id="projects">
+    <div style="margin-bottom: 50px; color: #000;" data-aos="fade-up">
+        <h3 style="font-size: 1.6rem; margin-bottom: 15px; font-weight: 700;">ინფორმაცია პროექტების შესახებ</h3>
+        <p>ამ პორტფოლიოში წარმოდგენილი ნამუშევრების ნაწილი არის კონცეპტუალური პროექტები. ეს ნიშნავს, რომ:</p>
+        <ul style="padding-left: 20px; list-style-type: disc;">
+            <li style="margin-bottom: 10px;"><b>ბიზნეს-ამოცანები და კომპანიები:</b> ბრენდების სახელები, მათი ისტორია და ბაზარზე არსებული გამოწვევები გენერირებულია ხელოვნური ინტელექტის (AI) მიერ. ეს მეთოდი გამოვიყენე რეალური ბრიფებისა და რთული მარკეტინგული ამოცანების იმიტაციისთვის.</li>
+            <li style="margin-bottom: 10px;"><b>შესრულება და სტრატეგია:</b> ყველა ვიზუალური გადაწყვეტა, დიზაინი, სტრატეგიული დაგეგმვა და ტექსტური კონტენტი არის ჩემს მიერ მომზადებული.</li>
+        </ul>
+    </div>
+
+    <h2 data-aos="fade-up">ნამუშევრები</h2>
+    <div class="projects-grid">
+        <div class="project-card" onclick="openModal('p1')" data-aos="zoom-in-up">
+            <div class="project-info"><h3>Crumb & Cup</h3><p>Landing Page - სრული ქეისი და სტრატეგია.</p></div>
+        </div>
+        <div class="project-card" onclick="openModal('p2')" data-aos="zoom-in-up" data-aos-delay="100">
+            <div class="project-info"><h3>Crumb Go</h3><p>Delivery App - ინტერფეისის დიზაინი.</p></div>
+        </div>
+        <div class="project-card" onclick="openModal('p3')" data-aos="zoom-in-up" data-aos-delay="200">
+            <div class="project-info"><h3>Linear Identity</h3><p>Quiet Luxury - ბრენდის იდენტობა.</p></div>
+        </div>
+        <div class="project-card" onclick="openModal('p4')" data-aos="zoom-in-up" data-aos-delay="300">
+            <div class="project-info"><h3>Linear Marketplace</h3><p>მაღალი კონვერსიის გასაყიდი ქარდები.</p></div>
+        </div>
+        <div class="project-card" onclick="openModal('p5')" data-aos="zoom-in-up" data-aos-delay="400">
+            <div class="project-info"><h3>Linear Social Ads</h3><p>Instagram კამპანია & ემოციური მარკეტინგი.</p></div>
+        </div>
+    </div>
+</section>
+
+<div id="m" class="modal"><div class="modal-content"><span class="close" onclick="closeModal()">&times;</span><div id="mb" class="modal-body"></div></div></div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init({ duration: 1000, once: true });
+
+    const data = {
+        p1: { 
+            t: "Crumb & Cup - Landing Page", 
+            d: `<img src="https://1s4oyld5dc.ucarecd.net/816a3143-eead-4d16-bebe-0b9bd8af3806/" class="modal-img">
+            <h4>ამოცანა (Objective)</h4>
+            შემექმნა მინიმალისტური და კონვერსიაზე ორიენტირებული ლენდინგი (Landing Page) ახალი ურბანული კაფესთვის, რომელიც სპეციალიზდება მაღალი ხარისხის ყავასა (Specialty Coffee) და ფრანგულ კრუასანებზე. მთავარი მიზანი იყო ბრენდის მყუდრო იდენტობის ჩვენება და მომხმარებლის წახალისება მაგიდის დასაჯავშნად.
+
+            <h4>სამიზნე აუდიტორია (Target Audience)</h4>
+            <ul>
+                <li>20-40 წლის ქალაქში მცხოვრები ადამიანები.</li>
+                <li>ესთეტიკის მოყვარული ფრილანსერები და სტუდენტები.</li>
+                <li>ადამიანები, ვინც აფასებს ხარისხიან დილის რუტინას.</li>
+            </ul>
+
+            <h4>შესრულების ეტაპები (Process)</h4>
+            <b>ბრენდინგი:</b> შევარჩიე მარტივი და დასამახსოვრებელი სახელი „Crumb & Cup“. ვიზუალური იდენტობისთვის გამოვიყენე თბილი, მიწისფერი ტონები (ყავისფერი, კრემისფერი), რაც სიმყუდროვისა და ნატურალურობის ასოციაციას იწვევს.
+            \n<b>UX სტრატეგია:</b> გამოვიყენე კლასიკური Z-Pattern-ის განლაგება. თვალი იწყებს ლოგოდან, გადადის მენიუზე და ჩამოდის მთავარ სათქმელთან (Heading), რაც სრულდება მკაფიო მოქმედების ღილაკით (CTA).
+            \n<b>Copywriting:</b> შევქმენი ემოციური სათაური „ყავა, რომელიც შენს დღეს აყვავებს“, რათა პირველივე წამიდან შევქმნა პოზიტიური მოლოდინი.
+
+            <h4>გამოყენებული ელემენტები (Technical Details)</h4>
+            <ul>
+                <li><b>ტიპოგრაფია:</b> სათაურებისთვის გამოყენებულია თამამი, უსერიფო შრიფტი (Modern Sans-Serif), ხოლო ტექსტისთვის — სუფთა და წაკითხვადი ფონტი.</li>
+                <li><b>ვიზუალი:</b> მაღალი რეზოლუციის ფოტო კონტენტის ცენტრშია, რაც მადას აღძრავს და პროდუქტის ხარისხზე მიუთითებს.</li>
+                <li><b>CTA:</b> ღილაკი „დაჯავშნე მაგიდა“ გამოყოფილია კონტრასტული ფერით, რომ მომხმარებლის ყურადღება მაშინვე მიიპყროს.</li>
+            </ul>` 
+        },
+        p2: { 
+            t: "Crumb Go - Delivery App", 
+            d: `<img src="https://1s4oyld5dc.ucarecd.net/6e0d4ab6-5a1f-46e1-b738-bf79a0b4298e/" class="modal-img">
+            <h4>ამოცანა (Objective)</h4>
+            შემექმნა მობილური აპლიკაციის ინტერფეისი (UI/UX) "Crumb & Cup"-ის მიტანის სერვისისთვის. მთავარი გამოწვევა იყო ვებგვერდის (Landing Page) ესთეტიკის გადატანა მობილურ ფორმატში და მომხმარებლისთვის შეკვეთის პროცესის მაქსიმალური ოპტიმიზაცია.
+
+            <h4>მომხმარებლის გამოცდილება (UX Strategy)</h4>
+            <ul>
+                <li><b>პერსონალიზაცია:</b> ეკრანის ზედა ნაწილში დავამატე მისალმების ბლოკი, რაც აპლიკაციასთან უფრო ახლო და მეგობრულ კავშირს ამყარებს.</li>
+                <li><b>სწრაფი წვდომა:</b> კატეგორიები (ყავა, კრუასანი, დესერტები) ვიზუალურად გამოყოფილია ხატულებით, რათა მომხმარებელმა წამებში იპოვოს სასურველი სექცია.</li>
+                <li><b>One-Tap Conversion:</b> პროდუქტის ბარათებზე დავამატე მკაფიო „+“ (Add to Cart) ღილაკი. ეს ამცირებს მომხმარებლის გზას ყიდვამდე და ხელს უწყობს იმპულსურ გაყიდვებს.</li>
+            </ul>
+
+            <h4>ვიზუალური დიზაინი (UI Design)</h4>
+            <ul>
+                <li><b>ბრენდის იდენტობა:</b> შევინარჩუნე წინა დავალების თბილი პალიტრა. რბილი კუთხეები (Border Radius) და ნაზი ჩრდილები აპლიკაციას თანამედროვე და "სუფთა" იერს აძლევს.</li>
+                <li><b>იერარქია:</b> ტექსტების ზომები და სისქეები განაწილებულია ისე, რომ მომხმარებელმა ჯერ დაინახოს პროდუქტი და მისი ფასი.</li>
+                <li><b>ნავიგაცია:</b> ქვედა მენიუ (Bottom Navigation Bar) აწყობილია სტანდარტული პრინციპით (Home, Search, Orders, Profile), რაც აადვილებს ცალი ხელით მართვას.</li>
+            </ul>
+
+            <h4>მარკეტინგული ღირებულება</h4>
+            დიზაინი ფოკუსირებულია Micro-interactions-ზე. მაგალითად, მისამართის ზოლი ეკრანის დასაწყისშივე აჩვენებს მიტანის ლოკაციას, რაც მომხმარებელს ნდობას უჩენს.` 
+        },
+        p3: { 
+            t: "Linear - Brand Identity", 
+            d: `
+            <img src="https://1s4oyld5dc.ucarecd.net/13e55751-8f66-4bb6-b9fa-420dae2ff0a2/" class="modal-img">
+            <img src="https://1s4oyld5dc.ucarecd.net/706590bb-efe6-4ebb-97b4-98f155ae2044/" class="modal-img">
+            <h4>კონცეფცია და იდეოლოგია (Brand Vision)</h4>
+            Linear არის ტანსაცმლის ბრენდი, რომელიც ფოკუსირებულია მუდმივ (timeless) დიზაინსა და მაღალ ხარისხზე. ბრენდის მთავარი ფილოსოფიაა „ნაკლები არის მეტი“ (Less is More). ამოცანა იყო შექმნილიყო იდენტობა, რომელიც იქნებოდა მინიმალისტური და პრემიუმ კლასის.
+
+            <h4>ლოგოს დიზაინი (Logo Design)</h4>
+            <ul>
+                <li><b>სიმბოლო:</b> ლოგოს ნიშანი წარმოადგენს ასო „L“-ის აბსტრაქტულ ინტერპრეტაციას. ხაზების უწყვეტობა ასოციარდება ძაფთან და ქსოვილთან.</li>
+                <li><b>ტიპოგრაფია:</b> შრიფტი შერჩეულია გეომეტრიული სისუფთავის გამო. ასოებს შორის გაზრდილი მანძილი (Kerning) ბრენდს მატებს „ჰაერს“.</li>
+                <li><b>Slogan:</b> „Essential Wear“ ხაზს უსვამს პროდუქტის დანიშნულებას — საბაზისო ელემენტები.</li>
+            </ul>
+
+            <h4>მუდბორდი და ესთეტიკა (Visual Identity)</h4>
+            ბრენდის ვიზუალური ენა ეყრდნობა ნეიტრალურ ტონებს: Graphite Black, Off-White, Sage Green და Warm Taupe. სტილი შთაგონებულია თანამედროვე არქიტექტურით.
+
+            <h4>პრაქტიკული გამოყენება (Mockups)</h4>
+            <ul>
+                <li><b>Embroidery:</b> სიმბოლო იდეალურად ინარჩუნებს ფორმას ქსოვილზე ამოქარგვისას.</li>
+                <li><b>Packaging & Tags:</b> მინიმალისტური იარლიყები ხაზს უსვამს ეკო-მეგობრულ მიდგომას.</li>
+            </ul>` 
+        },
+        p4: { 
+            t: "Linear - Marketplace Cards", 
+            d: `<img src="https://1s4oyld5dc.ucarecd.net/55e195fc-6796-44ee-8c15-f5f1e45d1a27/" class="modal-img">
+            <h4>ამოცანა (Objective)</h4>
+            შემექმნა გასაყიდი ქარდების ნაკრები Linear-ის პრემიუმ მაისურისთვის, რომელიც იქნებოდა მაღალი კონვერსიის მქონე. მიზანი იყო პროდუქტის ხარისხის ჩვენება მინიმალისტურ სტილში.
+
+            <h4>ქარდების სტრუქტურა (Content Strategy)</h4>
+            <ul>
+                <li><b>Main Card:</b> აქცენტი პროდუქტის მთავარ უპირატესობაზე — "100% Organic Cotton".</li>
+                <li><b>Infographics:</b> მაკრო-ფოტოსა და ხატულების მეშვეობით ნაჩვენებია ქსოვილის თვისებები: სუნთქვადობა და სირბილე.</li>
+                <li><b>Size Guide:</b> მკაფიო ცხრილი, რაც ამცირებს დაბრუნების ალბათობას.</li>
+                <li><b>Lifestyle:</b> ფოტო რეალურ გარემოში აჩვენებს "Minimalist Fit" სილუეტს.</li>
+            </ul>
+
+            <h4>ვიზუალური გადაწყვეტა (Visual Execution)</h4>
+            <ul>
+                <li><b>ფერთა გამა:</b> Charcoal & Black ტონები ქმნის ძვირადღირებული ბრენდის იმიჯს.</li>
+                <li><b>იერარქია:</b> თამამი შრიფტები (Bold Typography) სათაურებისთვის, მობილურზე მარტივად წასაკითხად.</li>
+            </ul>
+
+            <h4>მარკეტინგული შედეგი</h4>
+            დიზაინი ფოკუსირებულია "Quiet Luxury" ესთეტიკაზე, რაც იზიდავს ხარისხზე ორიენტირებულ აუდიტორიას.` 
+        },
+        p5: { 
+            t: "Linear - Social Ads", 
+            d: `
+            <img src="https://1s4oyld5dc.ucarecd.net/f93c636b-b288-4d05-b034-37b0f5e08784/" class="modal-img">
+            <h4>პირველი ნაწილი: ინსტაგრამის პოსტი</h4>
+            <h4>ამოცანა (Objective)</h4>
+            შემექმნა Instagram-ის პოსტი, რომელიც არ იქნებოდა აღქმული, როგორც აგრესიული რეკლამა. მიზანი იყო ბრენდის "Linear" ინტეგრირება მომხმარებლის ყოველდღიურობაში.
+            <h4>ვიზუალური სტრატეგია (Visual Strategy)</h4>
+            Art Direction: ფოტო გადაღებულია ბუნებრივ, რბილ განათებაში. კომპოზიცია არის "სუფთა" და მოწესრიგებული.
+            Lifestyle Context: მოდელი მინიმალისტურ კაფეში ქმნის ასოციაციას "Mindful Living"-თან.
+            
+            <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+            
+            <img src="https://1s4oyld5dc.ucarecd.net/aa6a4f41-acda-4a48-b6a4-1b267d5b4e04/" class="modal-img">
+            <h4>მეორე ნაწილი: სთორების სერია</h4>
+            <h4>ამოცანა (Objective)</h4>
+            შემექმნა Instagram Stories-ის 3-ეტაპიანი სერია, რომელიც მომხმარებელს ემოციური ჩართულობიდან პირდაპირ შესყიდვამდე მიიყვანდა.
+            <h4>სთორების სტრუქტურა (Sequence Strategy)</h4>
+            Story 1: Awareness & Sensory Appeal - აქცენტი ქსოვილის ხარისხზე.
+            Story 2: Interaction & Preference - გამოკითხვა ფერების შესახებ.
+            Story 3: Direct Response (Conversion) - "Limited Drop" და შესყიდვის ბმული.` 
+        }
+    };
+
+    function openModal(id) {
+        document.getElementById('mb').innerHTML = `<h3>${data[id].t}</h3>${data[id].d}`;
+        const modal = document.getElementById('m');
+        modal.style.display = 'block';
+        setTimeout(() => modal.classList.add('active'), 10);
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() { 
+        const modal = document.getElementById('m');
+        modal.classList.remove('active');
+        setTimeout(() => modal.style.display = 'none', 400);
+        document.body.style.overflow = 'auto';
+    }
+
+    window.onclick = function(e) { if (e.target == document.getElementById('m')) closeModal(); }
+</script>
+</body>
+</html>
